@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Java1_Week4</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="rentalText">Top Ten Rentals</string>
+    <string name="boxOfficeText">Top Ten Box Office</string>
+
+
+    <string-array name="type_array">
+        <item>Top Box Office</item>
+        <item>Top Rentals</item>
+    </string-array>
+
+
+</resources>
