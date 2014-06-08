@@ -14,6 +14,11 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+//Robert Smith
+//Java 2 Project 1 Term 1406
+//June 7 2014
+//Get Movie Service Class - Grabs JSON Returned from web and stores it in a file created using the ReadWriteLocalFile class
+
 /**
  * An {@link IntentService} subclass for handling asynchronous task requests in
  * a service on a separate handler thread.
@@ -34,8 +39,11 @@ public class GetMovieService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         if (intent != null) {
+
             Context context = this;
+            // Only allow access through getInstance()
             m_File = ReadWriteLocalFile.getInstance();
+
             try
             {
                 url = new URL("http://api.rottentomatoes.com/api/public/v1.0/lists/movies/box_office.json?limit=10&country=us&apikey=qveke3ymq3sejcq9w85ts7mc");

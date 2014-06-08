@@ -33,6 +33,12 @@ import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 
 
+//Robert Smith
+//Java 2 Project 1 Term 1406
+//June 7 2014
+//Main Activity Class - The First and only interface for the app at this time. Displays a list of the top box office movies according to Rotten Tomatoes
+
+
 public class MainActivity extends ListActivity {
 
     //Member Vars
@@ -42,8 +48,9 @@ public class MainActivity extends ListActivity {
     public String mSpinnerText;
     public static String mData;
     public TextView mListTypeText;
-    public URL url;
     public static Context mContext;
+    private static ReadWriteLocalFile fileManager;
+    public static String fileName = "JSON_String.txt";
 
 
 

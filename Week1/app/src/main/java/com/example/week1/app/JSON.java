@@ -6,9 +6,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
- * Created by robertsmith on 6/3/14.
- */
+//Robert Smith
+//Java 2 Project 1 Term 1406
+//June 7 2014
+//JSON Class - Formats the JSON into String Arrays so they can be displayed as List Items in MainActivity
+
 public class JSON {
 
     public static final String TAG = JSON.class.getSimpleName();
