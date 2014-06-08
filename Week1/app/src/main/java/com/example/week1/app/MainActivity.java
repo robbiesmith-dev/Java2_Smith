@@ -3,10 +3,13 @@ package com.example.week1.app;
 import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Message;
+import android.os.Messenger;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,9 +25,12 @@ import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
 
 
 public class MainActivity extends ListActivity {
@@ -38,6 +44,7 @@ public class MainActivity extends ListActivity {
     public TextView mListTypeText;
     public URL url;
     public static Context mContext;
+
 
 
     @Override
@@ -60,23 +67,15 @@ public class MainActivity extends ListActivity {
                 //Grab Text From Spinner
                 mSpinnerText = mSpinner.getSelectedItem().toString();
                 if (mSpinnerText.equals("Top Box Office")) {
-                    try {
-                        url = new URL("http://api.rottentomatoes.com/api/public/v1.0/lists/movies/box_office.json?limit=10&country=us&apikey=qveke3ymq3sejcq9w85ts7mc");
-                    } catch (MalformedURLException e) {
-                        Log.e(TAG, "Exception caught: ", e);
-                    }
-                    mListTypeText.setText(R.string.boxOfficeText);
-                } else {
-                    try {
-                        url = new URL("http://api.rottentomatoes.com/api/public/v1.0/lists/dvds/top_rentals.json?limit=10&country=us&apikey=qveke3ymq3sejcq9w85ts7mc");
-                    } catch (MalformedURLException e) {
-                        Log.e(TAG, "Exception caught: ", e);
-                    }
-                    mListTypeText.setText(R.string.rentalText);
+
+
                 }
-                getData data = new getData();
-                data.execute();
-            }
+
+                    mListTypeText.setText(R.string.boxOfficeText);
+                }
+
+
+
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
@@ -123,22 +122,12 @@ public class MainActivity extends ListActivity {
     {
         if(isNetworkAvailable())
         {
-            if (mSpinnerText.equals("Top Box Office"))
-            {
-                JSON.getBoxOfficeJSON(mData);
-                //Create Adapter
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, JSON.boxOfficeMovies);
-                //Set Adapter
-                setListAdapter(adapter);
-            }
-            else
-            {
-                JSON.getRentalJSON(mData);
-                //Create Adapter
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, JSON.rentalMovies);
-                //Set Adapter
-                setListAdapter(adapter);
-            }
+            final ServiceHandler myHandler = new ServiceHandler(this);
+
+            Messenger messenger = new Messenger(myHandler);
+
+            Intent serviceIntent = new Intent(mContext, GetMovieService.class);
+
         }
         else
         {
@@ -146,56 +135,72 @@ public class MainActivity extends ListActivity {
         }
     }
 
-    //This will fetch the top 10 movies and saves them to a json object
-    private class getData extends AsyncTask<Object, Void, String> {
+    private static class ServiceHandler extends android.os.Handler{
 
-        @Override
-        protected String doInBackground(Object... objects) {
-            int responseCode = -1;
-            String response = "";
-            JSONObject jsonResponse = null;
-            try{
-                //url from rottentomatoes.com
-                URL dataURL = url;
-                HttpURLConnection connection = (HttpURLConnection) dataURL.openConnection();
-                connection.connect();
-
-                responseCode = connection.getResponseCode();
-                if (responseCode == HttpURLConnection.HTTP_OK)
-                {
-                    BufferedInputStream input = new BufferedInputStream(connection.getInputStream());
-                    byte[] contextByte = new byte[1024];
-                    int byteRead = 0;
-                    StringBuffer responseBuffer = new StringBuffer();
-                    while ((byteRead = input.read(contextByte))!= -1){
-                        response = new String(contextByte, 0, byteRead);
-                        responseBuffer.append(response);
-                    }
-                    response = responseBuffer.toString();
-                    Log.e("TAG", "Response: " + response);
-                }
-                else
-                {
-                    Log.i(TAG, "Error Code " + responseCode);
-                }
-            }
-            catch (MalformedURLException e)
-            {
-                Log.e(TAG, "Exception caught: ", e);
-            }
-            catch (IOException e) {
-                Log.e(TAG, "Exception caught: ", e);
-            }
-
-            return response;
+        public ServiceHandler(MainActivity activity){
+            weakActivity = new WeakReference<MainActivity>(activity);
         }
 
+        private final WeakReference<MainActivity> weakActivity;
+
         @Override
-        protected void onPostExecute(String result) {
-            mData = result;
-            updateList();
-            super.onPostExecute(result);
+        public void handleMessage(Message msg)
+        {
+
         }
+
     }
+
+//    //This will fetch the top 10 movies and saves them to a json object
+//    private class getData extends AsyncTask<Object, Void, String> {
+//
+//        @Override
+//        protected String doInBackground(Object... objects) {
+//            int responseCode = -1;
+//            String response = "";
+//            JSONObject jsonResponse = null;
+//            try{
+//                //url from rottentomatoes.com
+//                URL dataURL = url;
+//                HttpURLConnection connection = (HttpURLConnection) dataURL.openConnection();
+//                connection.connect();
+//
+//                responseCode = connection.getResponseCode();
+//                if (responseCode == HttpURLConnection.HTTP_OK)
+//                {
+//                    BufferedInputStream input = new BufferedInputStream(connection.getInputStream());
+//                    byte[] contextByte = new byte[1024];
+//                    int byteRead = 0;
+//                    StringBuffer responseBuffer = new StringBuffer();
+//                    while ((byteRead = input.read(contextByte))!= -1){
+//                        response = new String(contextByte, 0, byteRead);
+//                        responseBuffer.append(response);
+//                    }
+//                    response = responseBuffer.toString();
+//                    Log.e("TAG", "Response: " + response);
+//                }
+//                else
+//                {
+//                    Log.i(TAG, "Error Code " + responseCode);
+//                }
+//            }
+//            catch (MalformedURLException e)
+//            {
+//                Log.e(TAG, "Exception caught: ", e);
+//            }
+//            catch (IOException e) {
+//                Log.e(TAG, "Exception caught: ", e);
+//            }
+//
+//            return response;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(String result) {
+//            mData = result;
+//            updateList();
+//            super.onPostExecute(result);
+//        }
+//    }
 
 }
