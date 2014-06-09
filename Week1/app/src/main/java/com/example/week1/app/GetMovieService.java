@@ -35,11 +35,9 @@ import java.net.URL;
 public class GetMovieService extends IntentService {
 
     public static final String MESSENGER_KEY = "messenger";
-    public static final String URL_STRING = "urlString";
-    public boolean success;
 
     URL url;
-    ReadWriteLocalFile m_File;
+
 
 
     public GetMovieService() {
@@ -50,14 +48,14 @@ public class GetMovieService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         if (intent != null) {
 
-            Context context = this;
-            // Only allow access through getInstance()
-
+            //Get data from Main Activity
             Bundle extras = intent.getExtras();
             Messenger messenger = (Messenger)extras.get(MESSENGER_KEY);
+
             ReadWriteLocalFile m_File;
             try
             {
+                //Top Box Office url
                 url = new URL("http://api.rottentomatoes.com/api/public/v1.0/lists/movies/box_office.json?limit=10&country=us&apikey=qveke3ymq3sejcq9w85ts7mc");
             }
             catch (MalformedURLException e)
@@ -68,6 +66,7 @@ public class GetMovieService extends IntentService {
             String response = "";
 
             try{
+                //Grab the json string from Rotten Tomatoes
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.connect();
 
@@ -98,14 +97,17 @@ public class GetMovieService extends IntentService {
             catch (IOException e) {
                 Log.e("Error", "Exception caught: ", e);
             }
+
             m_File = ReadWriteLocalFile.getInstance();
             m_File.writeToFile(MainActivity.mContext, MainActivity.fileName, response);
 
+            // Data for Main Activity
             Message msg = Message.obtain();
             msg.arg1 = Activity.RESULT_OK;
             msg.obj = response;
             try
             {
+                //Send data to main activity
                 messenger.send(msg);
             }
             catch (RemoteException e)

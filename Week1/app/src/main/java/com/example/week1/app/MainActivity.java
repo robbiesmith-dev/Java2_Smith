@@ -18,10 +18,13 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
@@ -30,6 +33,8 @@ import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.logging.LogRecord;
 
 
@@ -43,10 +48,7 @@ public class MainActivity extends ListActivity {
 
     //Member Vars
     public static final String TAG = MainActivity.class.getSimpleName();
-    public Spinner mSpinner;
     public ListView mList;
-    public String mSpinnerText;
-    public static String mData;
     public TextView mListTypeText;
     public static Context mContext;
     private static ReadWriteLocalFile fileManager;
@@ -65,7 +67,7 @@ public class MainActivity extends ListActivity {
         mList = (ListView) findViewById(R.id.list_item);
 
         mListTypeText = (TextView) findViewById(R.id.listTypeText);
-
+        mListTypeText.setText(R.string.boxOfficeText);
         getJSONData();
     }
 
@@ -113,18 +115,43 @@ public class MainActivity extends ListActivity {
 
     public void updateList()
     {
-        fileManager = ReadWriteLocalFile.getInstance();
+        if (isNetworkAvailable())
+        {
+            fileManager = ReadWriteLocalFile.getInstance();
 
-        String response = fileManager.readFile(mContext, fileName);
+            String response = fileManager.readFile(mContext, fileName);
 
-        Log.e("Response from FILE", "DATA" + response);
+            ArrayList<HashMap<String, String>> myList = new ArrayList<HashMap<String, String>>();
+            try
+            {
+                JSONObject jsonResponse = new JSONObject(response);
+                JSONArray movies = jsonResponse.getJSONArray("movies");
+                //Log.e("TAG", "Movies: " + movies);
 
-        JSON.getBoxOfficeJSON(response);
+                for (int i = 0; i < movies.length(); i++)
+                {
+                    JSONObject movie = movies.getJSONObject(i);
+                    String title = movie.getString("title");
+                    String rating = movie.getString("mpaa_rating");
+                    String year = movie.getString("year");
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, JSON.boxOfficeMovies);
-        //Set Adapter
-        setListAdapter(adapter);
+                    HashMap<String, String> displayMap = new HashMap<String, String>();
+                    displayMap.put("title", title);
+                    displayMap.put("rating", rating);
 
+                    myList.add(displayMap);
+                }
+            }
+            catch (JSONException e)
+            {
+                Log.e("TAG", "ERROR: " + e);
+            }
+
+            SimpleAdapter adapter = new SimpleAdapter(this, myList, R.layout.list_item, new String[]{"title", "rating"}, new int[]{R.id.title, R.id.rating});
+            //Set Adapter
+            setListAdapter(adapter);
+
+        }
     }
 
     public static class HandleTheData extends Handler{
@@ -151,57 +178,4 @@ public class MainActivity extends ListActivity {
         }
 
     }
-
-//    //This will fetch the top 10 movies and saves them to a json object
-//    private class getData extends AsyncTask<Object, Void, String> {
-//
-//        @Override
-//        protected String doInBackground(Object... objects) {
-//            int responseCode = -1;
-//            String response = "";
-//            JSONObject jsonResponse = null;
-//            try{
-//                //url from rottentomatoes.com
-//                URL dataURL = url;
-//                HttpURLConnection connection = (HttpURLConnection) dataURL.openConnection();
-//                connection.connect();
-//
-//                responseCode = connection.getResponseCode();
-//                if (responseCode == HttpURLConnection.HTTP_OK)
-//                {
-//                    BufferedInputStream input = new BufferedInputStream(connection.getInputStream());
-//                    byte[] contextByte = new byte[1024];
-//                    int byteRead = 0;
-//                    StringBuffer responseBuffer = new StringBuffer();
-//                    while ((byteRead = input.read(contextByte))!= -1){
-//                        response = new String(contextByte, 0, byteRead);
-//                        responseBuffer.append(response);
-//                    }
-//                    response = responseBuffer.toString();
-//                    Log.e("TAG", "Response: " + response);
-//                }
-//                else
-//                {
-//                    Log.i(TAG, "Error Code " + responseCode);
-//                }
-//            }
-//            catch (MalformedURLException e)
-//            {
-//                Log.e(TAG, "Exception caught: ", e);
-//            }
-//            catch (IOException e) {
-//                Log.e(TAG, "Exception caught: ", e);
-//            }
-//
-//            return response;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(String result) {
-//            mData = result;
-//            updateList();
-//            super.onPostExecute(result);
-//        }
-//    }
-
 }

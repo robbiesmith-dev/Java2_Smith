@@ -6,6 +6,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 //Robert Smith
 //Java 2 Project 1 Term 1406
 //June 7 2014
@@ -19,8 +22,10 @@ public class JSON {
 
 
 
-    public static String[] getBoxOfficeJSON(String s)
+    public static ArrayList getBoxOfficeJSON(String s)
     {
+
+        ArrayList<HashMap<String, String>> myList = new ArrayList<HashMap<String, String>>();
         try
         {
             JSONObject jsonResponse = new JSONObject(s);
@@ -32,9 +37,14 @@ public class JSON {
                 JSONObject movie = movies.getJSONObject(i);
                 String title = movie.getString("title");
                 String rating = movie.getString("mpaa_rating");
+                String year = movie.getString("year");
 
-                boxOfficeMovies[i] = title;
+                HashMap<String, String> displayMap = new HashMap<String, String>();
+                displayMap.put("title", title);
+                displayMap.put("rating", rating);
+                displayMap.put("year", year);
 
+                myList.add(displayMap);
             }
         }
         catch (JSONException e)
@@ -42,31 +52,6 @@ public class JSON {
             Log.e("TAG", "ERROR: " + e);
         }
 
-        return boxOfficeMovies;
-    }
-
-    public static String[] getRentalJSON(String s)
-    {
-        try
-        {
-            JSONObject jsonResponse = new JSONObject(s);
-            JSONArray movies = jsonResponse.getJSONArray("movies");
-            Log.e("TAG", "Movies: " + movies);
-
-            for (int i = 0; i < movies.length(); i++)
-            {
-                JSONObject movie = movies.getJSONObject(i);
-                String title = movie.getString("title");
-                String rating = movie.getString("mpaa_rating");
-
-                rentalMovies[i] = title;
-            }
-        }
-        catch (JSONException e)
-        {
-            Log.e("TAG", "ERROR: " + e);
-        }
-
-        return rentalMovies;
+        return myList;
     }
 }

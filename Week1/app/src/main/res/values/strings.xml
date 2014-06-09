@@ -9,10 +9,7 @@
     <string name="boxOfficeText">Top Ten Box Office</string>
 
 
-    <string-array name="type_array">
-        <item>Top Box Office</item>
-        <item>Top Rentals</item>
-    </string-array>
+
 
 
 </resources>
