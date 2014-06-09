@@ -1,8 +1,14 @@
 package com.example.week1.app;
 
+import android.app.Activity;
 import android.app.IntentService;
 import android.content.Intent;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
+import android.os.Bundle;
+import android.os.Message;
+import android.os.Messenger;
+import android.os.RemoteException;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -28,6 +34,10 @@ import java.net.URL;
  */
 public class GetMovieService extends IntentService {
 
+    public static final String MESSENGER_KEY = "messenger";
+    public static final String URL_STRING = "urlString";
+    public boolean success;
+
     URL url;
     ReadWriteLocalFile m_File;
 
@@ -42,8 +52,10 @@ public class GetMovieService extends IntentService {
 
             Context context = this;
             // Only allow access through getInstance()
-            m_File = ReadWriteLocalFile.getInstance();
 
+            Bundle extras = intent.getExtras();
+            Messenger messenger = (Messenger)extras.get(MESSENGER_KEY);
+            ReadWriteLocalFile m_File;
             try
             {
                 url = new URL("http://api.rottentomatoes.com/api/public/v1.0/lists/movies/box_office.json?limit=10&country=us&apikey=qveke3ymq3sejcq9w85ts7mc");
@@ -54,7 +66,7 @@ public class GetMovieService extends IntentService {
             }
             int responseCode = -1;
             String response = "";
-            JSONObject jsonResponse = null;
+
             try{
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.connect();
@@ -86,10 +98,20 @@ public class GetMovieService extends IntentService {
             catch (IOException e) {
                 Log.e("Error", "Exception caught: ", e);
             }
+            m_File = ReadWriteLocalFile.getInstance();
+            m_File.writeToFile(MainActivity.mContext, MainActivity.fileName, response);
 
-            m_File.writeToFile(context, "JSON_String", response);
-
-
+            Message msg = Message.obtain();
+            msg.arg1 = Activity.RESULT_OK;
+            msg.obj = response;
+            try
+            {
+                messenger.send(msg);
+            }
+            catch (RemoteException e)
+            {
+                e.printStackTrace();
+            }
         }
     }
 }

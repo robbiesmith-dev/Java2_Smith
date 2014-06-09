@@ -90,6 +90,8 @@ public class ReadWriteLocalFile {
             }
         }
 
+        Log.e("FILE", "READS " + content);
+
         return content;
     }
 }

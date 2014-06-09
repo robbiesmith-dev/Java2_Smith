@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Message;
 import android.os.Messenger;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,7 +30,6 @@ import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 
 
@@ -55,40 +55,18 @@ public class MainActivity extends ListActivity {
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //Instantiate Spinner
         mContext = this;
-        mSpinner = (Spinner) findViewById(R.id.spinner);
 
         //Instantiate Listview
         mList = (ListView) findViewById(R.id.list_item);
 
         mListTypeText = (TextView) findViewById(R.id.listTypeText);
 
-        mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                //Grab Text From Spinner
-                mSpinnerText = mSpinner.getSelectedItem().toString();
-                if (mSpinnerText.equals("Top Box Office")) {
-
-
-                }
-
-                    mListTypeText.setText(R.string.boxOfficeText);
-                }
-
-
-
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
+        getJSONData();
     }
 
     @Override
@@ -124,27 +102,35 @@ public class MainActivity extends ListActivity {
         return isAvailable;
     }
 
+    public void getJSONData()
+    {
+        final HandleTheData myHandler = new HandleTheData(this);
+        Messenger messenger = new Messenger(myHandler);
+        Intent serviceIntent = new Intent(mContext, GetMovieService.class);
+        serviceIntent.putExtra(GetMovieService.MESSENGER_KEY, messenger);
+        startService(serviceIntent);
+    }
 
     public void updateList()
     {
-        if(isNetworkAvailable())
-        {
-            final ServiceHandler myHandler = new ServiceHandler(this);
+        fileManager = ReadWriteLocalFile.getInstance();
 
-            Messenger messenger = new Messenger(myHandler);
+        String response = fileManager.readFile(mContext, fileName);
 
-            Intent serviceIntent = new Intent(mContext, GetMovieService.class);
+        Log.e("Response from FILE", "DATA" + response);
 
-        }
-        else
-        {
-            Toast.makeText(getApplicationContext(), "No Network Connection", Toast.LENGTH_LONG).show();
-        }
+        JSON.getBoxOfficeJSON(response);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, JSON.boxOfficeMovies);
+        //Set Adapter
+        setListAdapter(adapter);
+
     }
 
-    private static class ServiceHandler extends android.os.Handler{
+    public static class HandleTheData extends Handler{
 
-        public ServiceHandler(MainActivity activity){
+        public HandleTheData(MainActivity activity)
+        {
             weakActivity = new WeakReference<MainActivity>(activity);
         }
 
@@ -153,7 +139,15 @@ public class MainActivity extends ListActivity {
         @Override
         public void handleMessage(Message msg)
         {
-
+            MainActivity activity = weakActivity.get();
+            if(weakActivity != null)
+            {
+                Object object = msg.obj;
+                if(msg.arg1 == RESULT_OK && object != null)
+                {
+                    activity.updateList();
+                }
+            }
         }
 
     }

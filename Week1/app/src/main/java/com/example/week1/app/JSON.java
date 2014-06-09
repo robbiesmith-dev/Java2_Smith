@@ -25,7 +25,7 @@ public class JSON {
         {
             JSONObject jsonResponse = new JSONObject(s);
             JSONArray movies = jsonResponse.getJSONArray("movies");
-            Log.e("TAG", "Movies: " + movies);
+            //Log.e("TAG", "Movies: " + movies);
 
             for (int i = 0; i < movies.length(); i++)
             {
