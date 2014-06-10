@@ -1,4 +1,4 @@
-package com.example.week1.app;
+package com.example.week2.app;
 
 import android.app.Activity;
 import android.app.ListActivity;
@@ -6,36 +6,24 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Message;
 import android.os.Messenger;
-import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
 import java.lang.ref.WeakReference;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.logging.LogRecord;
 
 
 //Robert Smith
@@ -153,7 +141,7 @@ public class MainActivity extends ListActivity {
         }
     }
 
-    public static class HandleTheData extends Handler{
+    public static class HandleTheData extends Handler {
 
         public HandleTheData(MainActivity activity)
         {
