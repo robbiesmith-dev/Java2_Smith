@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -16,6 +17,8 @@ import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+
+import com.loopj.android.image.SmartImageView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -121,10 +124,18 @@ public class MainActivity extends ListActivity {
                     JSONObject movie = movies.getJSONObject(i);
                     String title = movie.getString("title");
                     String rating = movie.getString("mpaa_rating");
+                    JSONObject posters = new JSONObject(movie.getString("posters"));
+                    String poster = posters.getString("thumbnail");
+                    SmartImageView myImage = (SmartImageView) this.findViewById(R.id.poster);
+                    myImage.setImageUrl(poster);
+
+                    Log.e("Thumbnail:", "is" + poster);
+
 
                     HashMap<String, String> displayMap = new HashMap<String, String>();
                     displayMap.put("title", title);
                     displayMap.put("rating", rating);
+                    displayMap.put("poster", poster);
 
                     myList.add(displayMap);
                 }
@@ -134,7 +145,7 @@ public class MainActivity extends ListActivity {
                 Log.e("TAG", "ERROR: " + e);
             }
 
-            SimpleAdapter adapter = new SimpleAdapter(this, myList, R.layout.list_item, new String[]{"title", "rating"}, new int[]{R.id.title, R.id.rating});
+            SimpleAdapter adapter = new SimpleAdapter(this, myList, R.layout.list_item, new String[]{"title", "rating", "poster"}, new int[]{R.id.title, R.id.rating, R.id.poster});
             //Set Adapter
             setListAdapter(adapter);
 
