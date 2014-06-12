@@ -3,6 +3,7 @@ package com.example.week2.app;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Movie;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 
 
 //Robert Smith
@@ -41,7 +43,7 @@ public class MainActivity extends ListActivity {
     String[] rating = new String[10];
     String[] posterURL = new String[10];
 
-    MovieData MovieData_Array[];
+    ArrayList<MovieData> MovieData_List;
 
 
 
@@ -115,7 +117,7 @@ public class MainActivity extends ListActivity {
             {
                 JSONObject jsonResponse = new JSONObject(response);
                 JSONArray movies = jsonResponse.getJSONArray("movies");
-                MovieData_Array = new MovieData[movies.length()];
+                MovieData_List = new ArrayList<MovieData>();
                 //Log.e("TAG", "Movies: " + movies);
 
                 for (int i = 0; i < movies.length(); i++)
@@ -126,9 +128,10 @@ public class MainActivity extends ListActivity {
                     JSONObject posters = new JSONObject(movie.getString("posters"));
                     posterURL[i] = posters.getString("profile");
 
-                    MovieData_Array[i] = new MovieData(title[i], rating[i], posterURL[i]);
 
-                    Log.e("Array", "is"+MovieData_Array);
+                    MovieData_List.add(new MovieData(title[i], rating[i], posterURL[i]));
+
+                    //Log.e("Array", "is"+MovieData_List);
                 }
             }
             catch (JSONException e)
@@ -138,7 +141,7 @@ public class MainActivity extends ListActivity {
 
            // SimpleAdapter adapter = new SimpleAdapter(this, myList, R.layout.list_item, new String[]{"title", "rating"}, new int[]{R.id.title, R.id.rating});
             //Set Adapter
-            MovieDataAdapter adapter = new MovieDataAdapter(this, R.layout.list_item, MovieData_Array);
+            MovieDataAdapter adapter = new MovieDataAdapter(this, R.layout.list_item, MovieData_List);
             setListAdapter(adapter);
 
         }

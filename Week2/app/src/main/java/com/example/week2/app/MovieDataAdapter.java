@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,19 +21,21 @@ public class MovieDataAdapter extends ArrayAdapter<MovieData>
 {
     Context context;
     int layoutResourceId;
-    MovieData movies[] = null;
+    ArrayList<MovieData> MovieData_List;
 
-    public MovieDataAdapter(Context context, int layoutResourceId, MovieData[] movies) {
-        super(context, layoutResourceId, movies);
+    public MovieDataAdapter(Context context, int layoutResourceId, ArrayList<MovieData> MovieData_List) {
+        super(context, layoutResourceId, MovieData_List);
         this.layoutResourceId = layoutResourceId;
         this.context = context;
-        this.movies = movies;
+        this.MovieData_List = MovieData_List;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
         MovieDataHolder holder = null;
+
+        MovieData movie = getItem(position);
 
         //This quick check improves performace by checking if the cell has been created already
         if (row == null) {
@@ -51,8 +54,7 @@ public class MovieDataAdapter extends ArrayAdapter<MovieData>
             holder = (MovieDataHolder) row.getTag();
         }
 
-        //Set values to visual elements in listview
-        MovieData movie = movies[position];
+        //Set values to visual elements in list view
         Picasso.with(context).load(movie.posterURL).into(holder.posterView);
         holder.titleView.setText(movie.movieName);
         holder.ratingView.setText(movie.rating);
