@@ -1,10 +1,8 @@
 package com.example.week2.app;
 
-import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -15,18 +13,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
-
-import com.loopj.android.image.SmartImageView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 
 //Robert Smith
@@ -44,6 +37,11 @@ public class MainActivity extends ListActivity {
     public static Context mContext;
     private static ReadWriteLocalFile fileManager;
     public static String fileName = "JSON_String.txt";
+    String[] title = new String[10];
+    String[] rating = new String[10];
+    String[] posterURL = new String[10];
+
+    MovieData MovieData_Array[];
 
 
 
@@ -112,32 +110,25 @@ public class MainActivity extends ListActivity {
 
             String response = fileManager.readFile(mContext, fileName);
 
-            ArrayList<HashMap<String, String>> myList = new ArrayList<HashMap<String, String>>();
+           // ArrayList<HashMap<String, String>> myList = new ArrayList<HashMap<String, String>>();
             try
             {
                 JSONObject jsonResponse = new JSONObject(response);
                 JSONArray movies = jsonResponse.getJSONArray("movies");
+                MovieData_Array = new MovieData[movies.length()];
                 //Log.e("TAG", "Movies: " + movies);
 
                 for (int i = 0; i < movies.length(); i++)
                 {
                     JSONObject movie = movies.getJSONObject(i);
-                    String title = movie.getString("title");
-                    String rating = movie.getString("mpaa_rating");
+                    title[i] = movie.getString("title");
+                    rating[i] = movie.getString("mpaa_rating");
                     JSONObject posters = new JSONObject(movie.getString("posters"));
-                    String poster = posters.getString("thumbnail");
-                    SmartImageView myImage = (SmartImageView) this.findViewById(R.id.poster);
-                    myImage.setImageUrl(poster);
+                    posterURL[i] = posters.getString("profile");
 
-                    Log.e("Thumbnail:", "is" + poster);
+                    MovieData_Array[i] = new MovieData(title[i], rating[i], posterURL[i]);
 
-
-                    HashMap<String, String> displayMap = new HashMap<String, String>();
-                    displayMap.put("title", title);
-                    displayMap.put("rating", rating);
-                    displayMap.put("poster", poster);
-
-                    myList.add(displayMap);
+                    Log.e("Array", "is"+MovieData_Array);
                 }
             }
             catch (JSONException e)
@@ -145,8 +136,9 @@ public class MainActivity extends ListActivity {
                 Log.e("TAG", "ERROR: " + e);
             }
 
-            SimpleAdapter adapter = new SimpleAdapter(this, myList, R.layout.list_item, new String[]{"title", "rating", "poster"}, new int[]{R.id.title, R.id.rating, R.id.poster});
+           // SimpleAdapter adapter = new SimpleAdapter(this, myList, R.layout.list_item, new String[]{"title", "rating"}, new int[]{R.id.title, R.id.rating});
             //Set Adapter
+            MovieDataAdapter adapter = new MovieDataAdapter(this, R.layout.list_item, MovieData_Array);
             setListAdapter(adapter);
 
         }

@@ -2,12 +2,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
-    <com.loopj.android.image.SmartImageView
+    <ImageView
         android:id="@+id/poster"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:paddingLeft="10dp"
-        android:paddingRight="10dp" />
+        android:paddingRight="10dp"
+        />
 
     <TextView
         android:id="@+id/title"
@@ -15,8 +16,8 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/poster"
         android:paddingBottom="10dp"
-        android:textColor="#CC0033"
-        android:textSize="16dp" />
+        android:textSize="16dp"
+        />
 
     <TextView
         android:id="@+id/rating"
@@ -25,6 +26,6 @@
         android:layout_below="@+id/title"
         android:layout_toRightOf="@+id/poster"
         android:paddingLeft="10dp"
-        android:textColor="#3399FF"
-        android:textSize="14dp" />
+        android:textSize="14dp"
+        />
 </RelativeLayout>
