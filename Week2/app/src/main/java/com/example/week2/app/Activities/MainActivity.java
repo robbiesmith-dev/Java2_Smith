@@ -1,12 +1,10 @@
-package com.example.week2.app;
+package com.example.week2.app.Activities;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Movie;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -20,7 +18,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.example.week2.app.Helpers.GetMovieService;
+import com.example.week2.app.Helpers.MovieData;
+import com.example.week2.app.Helpers.MovieDataAdapter;
+import com.example.week2.app.R;
+import com.example.week2.app.Helpers.ReadWriteLocalFile;
 
 import org.json.JSONArray;
 import org.json.JSONException;

@@ -1,4 +1,4 @@
-package com.example.week2.app;
+package com.example.week2.app.Helpers;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,11 +10,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.week2.app.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 //Robert Smith
 //Java 2 Project 2 Term 1406

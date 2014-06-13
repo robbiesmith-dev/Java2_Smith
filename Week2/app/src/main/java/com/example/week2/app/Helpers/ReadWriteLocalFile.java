@@ -1,4 +1,4 @@
-package com.example.week2.app;
+package com.example.week2.app.Helpers;
 
 //Robert Smith
 //Java 2 Project 2 Term 1406

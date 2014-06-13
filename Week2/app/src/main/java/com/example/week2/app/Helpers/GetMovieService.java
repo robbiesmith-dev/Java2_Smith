@@ -1,4 +1,4 @@
-package com.example.week2.app;
+package com.example.week2.app.Helpers;
 
 //Robert Smith
 //Java 2 Project 2 Term 1406
@@ -13,6 +13,8 @@ import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
 import android.util.Log;
+
+import com.example.week2.app.Activities.MainActivity;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
