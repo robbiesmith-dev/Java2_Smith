@@ -218,16 +218,6 @@ public class MainActivity extends ListActivity {
         }
     }
 
-//    protected void onListItemClick(ListView l, View v, int position, long id) {
-//        super.onListItemClick(l, v, position, id);
-//        String title, rating, poster;
-//        title = this.getListAdapter().getItem(position).titleView;
-//        String value= obj.toString();
-//        Intent intent= new Intent(MainActivity.this,DeatilActivity.class);
-//        intent.putExtra("value", value);
-//        startActivity(intent);
-//    }
-
     public static class HandleTheData extends Handler {
 
         public HandleTheData(MainActivity activity)
