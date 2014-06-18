@@ -12,7 +12,7 @@ public class MovieData implements Serializable{
     public  String movieName;
     public  String rating;
     public  String posterURL;
-    public String rtURL;
+    public  String rtURL;
 
     public MovieData(){
         super();
