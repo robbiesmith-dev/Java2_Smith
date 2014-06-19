@@ -88,8 +88,6 @@ public class MainActivity extends ListActivity {
             }
         });
 
-
-
         mListTypeText = (TextView) findViewById(R.id.listTypeText);
         mListTypeText.setText(R.string.boxOfficeText);
         getJSONData();
@@ -114,20 +112,6 @@ public class MainActivity extends ListActivity {
                 AlertDialog alert = builder.create();
                 alert.show();
             }
-
-//                final AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
-//                alertDialog.setTitle("Rating");
-//                alertDialog.setMessage("You gave " +movieFromDetail+ " a rating of "+ratingFromDetail);
-//                alertDialog.setIcon(R.drawable.ic_launcher);
-//                //
-//                alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        alertDialog.dismiss();
-//                    }
-//                });
-//
-//                alertDialog.show();
-            //}
         }
     }
 
