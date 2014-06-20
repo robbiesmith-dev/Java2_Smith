@@ -1,11 +1,17 @@
 package com.example.week3.app.Activities;
 
+//Robert Smith
+//Java 2 Project 3 Term 1406
+//June 12 2014
+
 import android.app.AlertDialog;
 import android.app.FragmentTransaction;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.graphics.drawable.GradientDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -14,9 +20,11 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.Messenger;
 import android.util.Log;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -54,6 +62,7 @@ public class MainActivity extends ListActivity implements MainFragment.OnMovieSe
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.landscape);
+
         mContext = this;
 
         getJSONData();

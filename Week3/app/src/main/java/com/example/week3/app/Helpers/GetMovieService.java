@@ -1,8 +1,8 @@
 package com.example.week3.app.Helpers;
 
-/**
- * Created by robertsmith on 6/19/14.
- */
+//Robert Smith
+//Java 2 Project 3 Term 1406
+//June 12 2014
 
 import android.app.Activity;
 import android.app.IntentService;

@@ -1,7 +1,7 @@
 package com.example.week3.app.Helpers;
 
 //Robert Smith
-//Java 2 Project 2 Term 1406
+//Java 2 Project 3 Term 1406
 //June 12 2014
 //Movie Data -  Custom object for easy passing of multiple properties linked to a particular movie
 

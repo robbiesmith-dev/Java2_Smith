@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/titleView"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@id/posterView"
+        android:layout_alignLeft="@+id/ratingView"
         android:layout_alignParentStart="false" />
 
     <ImageView
@@ -31,16 +31,16 @@
         android:id="@+id/ratingView"
         android:layout_marginTop="36dp"
         android:layout_below="@+id/titleView"
-        android:layout_alignLeft="@+id/titleView"
         android:layout_centerHorizontal="true" />
 
     <Button
-        android:layout_width="130dp"
-        android:layout_height="50dp"
-        android:text="Website"
+        android:layout_width="150dp"
+        android:layout_height="100dp"
+        android:text="View on Rotten Tomatoes"
         android:id="@+id/rtButton"
-        android:layout_toRightOf="@id/posterView"
-        android:layout_above="@+id/ratingBar" />
+        android:layout_marginBottom="140dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 
     <RatingBar
         android:layout_width="wrap_content"
@@ -50,4 +50,3 @@
         android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
-

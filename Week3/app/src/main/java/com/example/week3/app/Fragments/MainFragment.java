@@ -32,9 +32,10 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-/**
- * Created by robertsmith on 6/19/14.
- */
+//Robert Smith
+//Java 2 Project 3 Term 1406
+//June 12 2014
+
 public class MainFragment extends ListFragment implements AdapterView.OnItemClickListener {
 
 

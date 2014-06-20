@@ -1,8 +1,13 @@
 package com.example.week3.app.Activities;
 
+//Robert Smith
+//Java 2 Project 3 Term 1406
+//June 12 2014
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,17 +39,10 @@ public class DetailActivity extends Activity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_detail);
-
-//        rtButton = (Button)findViewById(R.id.rtButton);
-
-//        rtButton.setOnClickListener(new Button.OnClickListener() {
-//            public void onClick(View v)
-//            {
-//                Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
-//                startActivity(webIntent);
-//            }
-//        });
-
+//        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+//            finish();
+//            return;
+//        }
 
         Intent passedIntent = this.getIntent();
         title = passedIntent.getStringExtra("title");
@@ -76,6 +74,8 @@ public class DetailActivity extends Activity{
 
     }
 
+
+
     @Override
     public void finish(){
 
@@ -104,4 +104,11 @@ public class DetailActivity extends Activity{
         }
         return super.onOptionsItemSelected(item);
     }
+//
+//    @Override
+//    public void WebsiteClicked()
+//    {
+//        Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
+//        startActivity(webIntent);
+//    }
 }

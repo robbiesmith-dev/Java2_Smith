@@ -1,7 +1,13 @@
 package com.example.week3.app.Fragments;
 
+//Robert Smith
+//Java 2 Project 3 Term 1406
+//June 12 2014
+
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,17 +36,17 @@ public class DetailFragment extends Fragment {
     public String poster;
     public String link;
 
-//    OnMovieSelectedListener mListener;
+//    OnWebsiteClick mListener;
 //
-//    public interface OnMovieSelectedListener {
-//        public void OnMovieSelected(String title, String rating, String poster, String link);
+//    public interface OnWebsiteClick {
+//        public void WebsiteClicked();
 //    }
 //
 //    @Override
 //    public void onAttach(Activity activity) {
 //        super.onAttach(activity);
 //        try {
-//            mListener = (OnMovieSelectedListener) activity;
+//            mListener = (OnWebsiteClick) activity;
 //        } catch (ClassCastException e) {
 //            throw new ClassCastException(activity.toString() + " must implement OnArticleSelectedListener");
 //        }
@@ -49,6 +55,7 @@ public class DetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         return inflater.inflate(R.layout.fragment_detail, container, false);
+
     }
 
     @Override
@@ -60,6 +67,13 @@ public class DetailFragment extends Fragment {
         posterIMG = (ImageView)getView().findViewById(R.id.posterView);
         rtButton =(Button)getView().findViewById(R.id.rtButton);
         ratingBar = (RatingBar)getView().findViewById(R.id.ratingBar);
+
+//        rtButton.setOnClickListener(new Button.OnClickListener() {
+//            public void onClick(View v)
+//            {
+//                mListener.WebsiteClicked();
+//            }
+//        });
     }
 
     public void displayMovieInfo(String title, String rating, String poster, String link)
