@@ -72,7 +72,7 @@ public class MainActivity extends ListActivity {
                 link = MovieData_List.get(i).rtURL;
 
                 //Intent that will pass properties to detail activity
-                Intent detailIntent = new Intent(mContext, DeatilActivity.class);
+                Intent detailIntent = new Intent(mContext, DetailActivity.class);
                 detailIntent.putExtra("title", title);
                 detailIntent.putExtra("rating", rating);
                 detailIntent.putExtra("poster", poster);
