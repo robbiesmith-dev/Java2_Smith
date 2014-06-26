@@ -17,7 +17,7 @@
         android:layout_alignParentStart="false" />
 
     <ImageView
-        android:layout_width="150dp"
+        android:layout_width="140dp"
         android:layout_height="200dp"
         android:id="@+id/posterView"
         android:paddingLeft="30dp" />

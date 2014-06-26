@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Week 4</string>
+    <string name="app_name">Movies</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_search">Search</string>
     <string name="action_about">About</string>
@@ -9,15 +9,17 @@
     <string name="action_userpref">Preferences</string>
     <string name="dialog">SEARCH MOVIES BY TITLE</string>
     <string name="prefdialog">Enter Username</string>
-    <string name="title_activity_detail">DetailActivity</string>
+    <string name="title_activity_detail">Selected Movie</string>
     <string name="rentalText">Top Ten Rentals</string>
     <string name="boxOfficeText">Top Ten Box Office</string>
-    <string name="title_activity_info">InfoActivity</string>
+    <string name="title_activity_info">Project Info</string>
     <string name="action_settings">Settings</string>
     <string name="devname">Robert Smith</string>
-    <string name="projectname">Box Office</string>
+    <string name="projectname">Top Box Office</string>
     <string name="course">Java 2</string>
     <string name="term">1406</string>
-    <string name="title_activity_favorites">FavoritesActivity</string>
+    <string name="empty_message">No Movies, Try Connecting To A Network</string>
+    <string name="empty_message_fav">You Can Add Favorites By Rating Movies</string>
+    <string name="title_activity_favorites">Favorite Movies</string>
 
 </resources>
