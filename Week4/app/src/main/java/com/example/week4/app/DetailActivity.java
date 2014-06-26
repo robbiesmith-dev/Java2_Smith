@@ -1,7 +1,11 @@
 package com.example.week4.app;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -17,6 +21,8 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+
 
 public class DetailActivity extends Activity {
 
@@ -30,11 +36,25 @@ public class DetailActivity extends Activity {
     RatingBar ratingBar;
     float userRating;
 
+    public static ArrayList<String> Favorites_List;
+    public SharedPreferences preferences;
+    public SharedPreferences.Editor edit;
+
+
+    static final String RATING = "rating";
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (savedInstanceState != null)
+        {
+            onRestoreInstanceState(savedInstanceState);
+            userRating = savedInstanceState.getFloat(RATING);
+        }
+        //onRestoreInstanceState(savedInstanceState);
+
         setContentView(R.layout.activity_detail);
 
         titleView = (TextView)findViewById(R.id.titleView);
@@ -56,7 +76,6 @@ public class DetailActivity extends Activity {
                 startActivity(webIntent);
             }
         });
-
 
         titleView.setText(title);
         ratingView.setText(rating);
@@ -100,4 +119,64 @@ public class DetailActivity extends Activity {
 //        }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState)
+    {
+        savedInstanceState.putFloat(RATING, userRating);
+
+        ratingBar.setRating(userRating);
+
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+
+        preferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.mContext);
+        edit = preferences.edit();
+        if (preferences.getFloat("rating_" + title, ratingBar.getRating()) != 0.0f)
+        {
+            edit.putFloat("rating_" + title, ratingBar.getRating());
+            edit.putString("title", title);
+            edit.apply();
+            if (Favorites_List != null)
+            {
+                if (!Favorites_List.contains(preferences.getString("title", "")))
+                {
+                    Favorites_List.add(preferences.getString("title", ""));
+                    Log.e("DETAIL ACTIVITY", "" + Favorites_List);
+                }
+            }
+            else
+            {
+                Favorites_List = new ArrayList<String>();
+
+                Favorites_List.add(preferences.getString("title", ""));
+                Log.e("DETAIL ACTIVITY", "FIRST INSTANCE" + Favorites_List);
+
+            }
+        }
+
+   }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        preferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.mContext);
+        ratingBar.setRating(preferences.getFloat("rating_" + title, ratingBar.getRating()));
+
+    }
+
+//    public void onRestoreInstanceState(Bundle savedInstanceState)
+//    {
+//        super.onRestoreInstanceState(savedInstanceState);
+//
+//        userRating = savedInstanceState.getFloat(RATING);
+//
+//        ratingBar.setRating(userRating);
+//    }
 }

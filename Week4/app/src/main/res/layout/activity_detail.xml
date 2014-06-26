@@ -9,7 +9,6 @@
     tools:context="com.example.week2.app.Activities.DetailActivity">
 
     <TextView
-        android:text="@string/hello_world"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/titleView"
@@ -21,13 +20,11 @@
         android:layout_width="150dp"
         android:layout_height="200dp"
         android:id="@+id/posterView"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        android:paddingLeft="30dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Text"
         android:id="@+id/ratingView"
         android:layout_marginTop="36dp"
         android:layout_below="@+id/titleView"
@@ -38,7 +35,7 @@
         android:layout_height="100dp"
         android:text="View on Rotten Tomatoes"
         android:id="@+id/rtButton"
-        android:layout_marginBottom="140dp"
+        android:layout_marginBottom="75dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 

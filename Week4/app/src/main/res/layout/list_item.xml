@@ -17,7 +17,7 @@
         android:layout_toRightOf="@+id/poster"
         android:paddingBottom="10dp"
         android:textSize="16dp"
-        />
+        android:textColor="#ffffffff" />
 
     <TextView
         android:id="@+id/rating"
@@ -27,5 +27,5 @@
         android:layout_toRightOf="@+id/poster"
         android:paddingLeft="10dp"
         android:textSize="14dp"
-        />
+        android:textColor="#ffffffff" />
 </RelativeLayout>
