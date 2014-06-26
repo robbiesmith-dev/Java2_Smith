@@ -14,23 +14,27 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class MovieDataAdapter extends ArrayAdapter<MovieData>
 {
     Context context;
     int layoutResourceId;
-    ArrayList<MovieData> MovieData_List;
+    public static ArrayList<MovieData> MovieData_List;
+    public static ArrayList<MovieData> arraylist;
 
     public MovieDataAdapter(Context context, int layoutResourceId, ArrayList<MovieData> MovieData_List) {
         super(context, layoutResourceId, MovieData_List);
         this.layoutResourceId = layoutResourceId;
         this.context = context;
         this.MovieData_List = MovieData_List;
-        Log.e("Adp", "" + MovieData_List.get(4).getTitle());
+        this.arraylist = new ArrayList<MovieData>();
+        this.arraylist.addAll(MovieData_List);
     }
 
     @Override
@@ -41,7 +45,8 @@ public class MovieDataAdapter extends ArrayAdapter<MovieData>
         MovieData movie = getItem(position);
 
         //This quick check improves performace by checking if the cell has been created already
-        if (row == null) {
+        if (row == null)
+        {
             LayoutInflater inflater = ((Activity) context).getLayoutInflater();
             row = inflater.inflate(layoutResourceId, parent, false);
 
@@ -53,7 +58,8 @@ public class MovieDataAdapter extends ArrayAdapter<MovieData>
 
             //Set tag for else statement
             row.setTag(holder);
-        } else {
+        } else
+        {
             holder = (MovieDataHolder) row.getTag();
         }
 
@@ -71,5 +77,41 @@ public class MovieDataAdapter extends ArrayAdapter<MovieData>
         ImageView posterView;
         TextView titleView;
         TextView ratingView;
+    }
+
+    //FILTERS LIST BASED ON TEXT INPUT
+    public void search(String searchText)
+    {
+        //INPUT TEXT CONVERTED TO LOWERCASE
+        searchText = searchText.toLowerCase();
+        //EMPTY MOVIE LIST
+        MovieData_List.clear();
+        //IF EDITTEXT IS EMPTY RETURN ORIGINAL LIST
+        if (searchText.length() == 0)
+        {
+            MovieData_List.addAll(arraylist);
+            Log.e("LENGTH 0", "" + MovieData_List.get(0).getTitle());
+        }
+        else
+        {
+            //ITERATE THROUGH LIST
+            for (MovieData movie : arraylist)
+            {
+                //IF TEXT MATCHES
+                if (movie.getTitle().toLowerCase().contains(searchText))
+                {
+                    Log.e("ADDED MOVIE", "" + movie.getTitle());
+                    //ADD MOVIE
+                    MovieData_List.add(movie);
+                }
+            }
+        }
+        if(MovieData_List.isEmpty())
+        {
+            MovieData_List.addAll(arraylist);
+            Toast.makeText(context, "No Results, Try Searching Again", Toast.LENGTH_LONG).show();
+        }
+        //RESET THE LIST
+        notifyDataSetChanged();
     }
 }

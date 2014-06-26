@@ -2,6 +2,7 @@ package com.example.week4.app;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DialogFragment;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -43,6 +44,9 @@ public class MainActivity extends ListActivity {
     public static Context mContext;
     private static ReadWriteLocalFile fileManager;
     public static String fileName = "JSON_String.txt";
+
+    //MADE ADAPTER MEMBER VAR SO I COULD CALL SEARCH METHOD FROM DIALOG METHOD
+    public MovieDataAdapter adapter;
 
     ArrayList<MovieData> MovieData_List;
 
@@ -112,7 +116,7 @@ public class MainActivity extends ListActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.main_activity, menu);
         return true;
     }
 
@@ -122,10 +126,37 @@ public class MainActivity extends ListActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId())
+        {
+            case R.id.action_search:
+                //SEARCH
+                showDialog();
+                break;
+            case R.id.action_fav:
+                break;
+            case R.id.action_userpref:
+                break;
+            case R.id.action_about:
+                break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    void showDialog() {
+        DialogFragment newFragment = DialogFrag.newInstance(R.string.dialog);
+        newFragment.show(getFragmentManager(), "dialog");
+    }
+
+    public void dialogOKClick()
+    {
+        //FILTERS LIST
+        adapter.search(DialogFrag.input.getText().toString());
+    }
+
+    public void dialogResetClick()
+    {
+        DialogFrag.input.setText("");
+        adapter.search(DialogFrag.input.getText().toString());
     }
 
     private boolean isNetworkAvailable()
@@ -185,7 +216,7 @@ public class MainActivity extends ListActivity {
                     Log.e("Array 2", MovieData_List.get(i).getTitle());
                 }
                 Log.e("BAdpt", MovieData_List.get(4).getTitle());
-                MovieDataAdapter adapter = new MovieDataAdapter(this, R.layout.list_item, MovieData_List);
+                adapter = new MovieDataAdapter(this, R.layout.list_item, MovieData_List);
                 setListAdapter(adapter);
                 //adapter.setContent(MovieData_List);
             }
